@@ -73,7 +73,7 @@ export default {
     window.addEventListener('mouseup', () => {
       isResize = false
     })
-    setFlexGrow(400)
+    setFlexGrow(200)
   }
 }
 </script>
@@ -85,6 +85,16 @@ export default {
   width: 100%;
   height: 100%;
   display: flex;
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 22px;
+    z-index: 99999;
+    -webkit-app-region: drag; // ドラッグできるようにする
+  }
 }
 
 #nav {

@@ -94,7 +94,7 @@ export default {
 }
 
 .ProseMirror {
-  padding: 30px;
+  padding: 50px 30px;
   outline: none;
   &:focus {
     outline: none;

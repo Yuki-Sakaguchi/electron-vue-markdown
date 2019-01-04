@@ -36,6 +36,10 @@ function createWindow () {
     win = null
   })
 
+  createMenu()
+}
+
+function createMenu() {
   // メニューの追加
   const menu = Menu.buildFromTemplate([
     {
