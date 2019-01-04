@@ -1,6 +1,6 @@
 <template>
-  <div id="app">
-    <nav id="nav">
+  <div class="wrap" id="app">
+    <nav class="container" id="nav">
       <img class="nav__logo" src="./assets/images/logo.png" alt="LOGO">
       <ul class="nav-list">
         <li v-for="item in textList" :key="item.id" class="nav-list__item">
@@ -8,7 +8,10 @@
         </li>
       </ul>
     </nav>
-    <router-view/>
+    <div class="resize-bar"></div>
+    <div class="container" id="main">
+      <router-view/>
+    </div>
   </div>
 </template>
 
@@ -44,6 +47,33 @@ export default {
         }
       }, 2000);
     }
+
+    const elContainer = document.querySelectorAll('.container')
+    const elResizebar = document.querySelector('.resize-bar')
+    let isResize = false
+    let columnCnt = elContainer.length
+
+    function setFlexGrow (width) {
+      const r = width / (window.innerWidth/columnCnt)
+      elContainer[0].style.flexGrow = r
+      elContainer[1].style.flexGrow = columnCnt - r
+    }
+    
+    // resize処理の開始
+    elResizebar.addEventListener('mousedown', () => {
+      isResize = true
+    })
+
+    // elResizebarにすると判定が外れやすいのでwindow
+    window.addEventListener('mousemove', (e) => {
+      if (!isResize) return false
+      setFlexGrow(e.clientX)
+    })
+    // 値変更の処理をwindowに追加しているので、解除もwindow
+    window.addEventListener('mouseup', () => {
+      isResize = false
+    })
+    setFlexGrow(400)
   }
 }
 </script>
@@ -58,7 +88,6 @@ export default {
 }
 
 #nav {
-  width: 300px;
   height: 100%;
   background-color: $c_main;
   color: white;
@@ -79,6 +108,36 @@ export default {
     width: 100px;
     margin: 0 auto 30px;
     display: block;
+  }
+}
+
+.wrap {
+  height: 100%;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: row;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: visible;
+  // min-width: 200px;
+}
+
+.resize-bar {
+  position: relative;
+  &:before {
+    content: "";
+    position: absolute;
+    width: 12px;
+    left: -7px;
+    top: 0;
+    bottom: 0;
+    cursor: col-resize;
+    z-index: 3;
   }
 }
 </style>

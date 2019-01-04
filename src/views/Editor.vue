@@ -88,7 +88,7 @@ export default {
 
 <style lang="scss">
 .contents {
-  width: calc(100% - 300px);
+  width: 100%;
   height: 100%;
   overflow-y: scroll;
 }
@@ -127,6 +127,10 @@ export default {
     code {
       font-family: 'Source Code Pro', monospace;
     }
+  }
+  ul {
+    list-style: disc;
+    margin-left: 20px;
   }
 }
 </style>

@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, protocol, BrowserWindow, Menu, dialog } from 'electron'
 import {
   createProtocol,
   installVueDevtools
@@ -17,6 +17,7 @@ function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({
     titleBarStyle: 'hidden',
+    backgroundColor: '#2c3e50',
     width: 800,
     height: 600,
   })
@@ -34,6 +35,44 @@ function createWindow () {
   win.on('closed', () => {
     win = null
   })
+
+  // メニューの追加
+  const menu = Menu.buildFromTemplate([
+    {
+      label: 'Vue-Electron-Markdown', // 開発中は"Electron"と表示されるが、パッケージごはこれになる
+      submenu: [
+        {label: 'About'},
+        {label: 'Quit'}
+      ]
+    },
+    {
+      label: 'File',
+      submenu: [
+        {
+          label: 'New File',
+          accelerator: 'Command+N',
+          click: (item, focusedWindow) => {
+            console.log('New File')
+          },
+        },
+        {
+          label: 'Reload',
+          accelerator: 'Command+R',
+          click: (item, focusedWindow) => {
+            if (focusedWindow) focusedWindow.reload()
+          },
+        },
+      ]
+    },
+    {
+      label: 'Edit',
+      submenu: [
+        {label: 'Copy', accelerator: 'Command+C', selector: 'copy'},
+        {label: 'Paste', accelerator: 'Command+V', selector: 'paste'}
+      ]
+    }
+  ]);
+  Menu.setApplicationMenu(menu);
 }
 
 // Quit when all windows are closed.
